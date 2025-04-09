@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 22:33:21 by buket             #+#    #+#             */
-/*   Updated: 2025/04/08 23:52:39 by buket            ###   ########.fr       */
+/*   Updated: 2025/04/09 16:53:09 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,13 @@ int main(int argc, char *argv[])
     int i = 0;
     while(argv[2][i])
     {
+        if((unsigned char)argv[2][i]>127)
+        {
+            ft_printf("bonusa geçin\n");
+            return 0;
+        }
         send_signal(argv[2][i], ft_atoi(argv[1]));
         i++;
     }
     return 0;   
 }
-
-//header'ı değiştir
