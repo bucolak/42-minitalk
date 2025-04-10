@@ -6,11 +6,13 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 22:33:21 by buket             #+#    #+#             */
-/*   Updated: 2025/04/09 16:53:09 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/04/10 14:46:07 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+volatile sig_atomic_t cont;
 
 static int	ft_atoi(char *str)
 {
@@ -35,6 +37,12 @@ static int	ft_atoi(char *str)
 	return (s * r);
 }
 
+void send_cont(int sig)
+{
+    if(sig == SIGUSR1)
+        cont = 1;
+}
+
 void send_signal(char s, int pid)
 {
     int i = 0;
@@ -44,6 +52,9 @@ void send_signal(char s, int pid)
             kill(pid, SIGUSR1);
         else
             kill(pid, SIGUSR2);
+        cont = 0;
+        while (cont==0)
+            ;
         i++;
         usleep(100);
     }
@@ -57,6 +68,7 @@ int main(int argc, char *argv[])
         return 0;
     }
     int i = 0;
+    signal(SIGUSR1, send_cont);
     while(argv[2][i])
     {
         if((unsigned char)argv[2][i]>127)

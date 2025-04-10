@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 22:52:42 by buket             #+#    #+#             */
-/*   Updated: 2025/04/09 15:51:21 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/04/10 14:36:06 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void handle_signal(int sig, siginfo_t *info, void *context)
 {
-    (void)info;
     (void)context;
     static int c;
     static int i = 0;
@@ -22,6 +21,7 @@ void handle_signal(int sig, siginfo_t *info, void *context)
         c |= (1<<i);
     else if(sig == SIGUSR2)
         c |= 0;
+    kill(info->si_pid, SIGUSR1);
     i++;
     if(i==8)
     {
@@ -37,7 +37,7 @@ int main()
     struct sigaction sa;
     pid = getpid();
     ft_printf("PID : %d\n",pid);
-    sa.sa_flags = SA_SIGINFO | SA_RESTART;
+    sa.sa_flags = SA_SIGINFO;
     sa.sa_sigaction = handle_signal;
    
     sigaction(SIGUSR1, &sa, NULL);
