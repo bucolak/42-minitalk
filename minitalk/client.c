@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 22:33:21 by buket             #+#    #+#             */
-/*   Updated: 2025/04/10 14:46:07 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/04/10 15:03:59 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ void send_signal(char s, int pid)
     int i = 0;
     while(i < 8)
     {
+        cont = 0;
         if(((s>>i)&1)==1)
             kill(pid, SIGUSR1);
         else
             kill(pid, SIGUSR2);
-        cont = 0;
         while (cont==0)
             ;
         i++;
